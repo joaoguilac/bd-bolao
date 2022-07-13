@@ -7,15 +7,22 @@
     <nuxt-link to="/login">
       <b-button>Login</b-button>
     </nuxt-link>
-    <nuxt-link to="/register">
-      <b-button>Cadastrar</b-button>
-    </nuxt-link>
+    <br><br>
+    <form @submit.prevent="login">
+      <input
+        required
+        type="email"
+        v-model="email"
+        class="form-control"
+        placeholder="E-mail"
+      />
+      <b-button type="submit" block variant="success" class="px-4">
+        Cadastrar
+      </b-button>
+    </form>
     <br><br>
     <img src="smartphone-index.svg" alt="">
     <h1>Se você quer se divertir apostando em jogos de futebol, bolão é pra você!</h1>
-    <b-button>Entre com sua conta do Facebook</b-button>
-    <b-button>Entre com sua conta do Gmail</b-button>
-    <b-button>Entre com sua conta do Twitter</b-button>
   </b-container>
 </template>
 
