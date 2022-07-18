@@ -51,6 +51,15 @@
       <p class="ml-4">Ana Carolina | Cácio Lucas | João Guilherme </p>
       <p>© 2022 - Todos os direitos reservados</p>
     </div>
+    <div class="h2 mb-0">
+      <b-icon icon="exclamation-circle-fill" variant="success"></b-icon>
+      <b-icon icon="exclamation-circle-fill" variant="warning"></b-icon>
+      <b-icon icon="exclamation-circle-fill" variant="danger"></b-icon>
+      <b-icon icon="exclamation-circle-fill" variant="info"></b-icon>
+      <b-icon icon="exclamation-circle-fill" variant="primary"></b-icon>
+      <b-icon icon="exclamation-circle-fill" variant="secondary"></b-icon>
+      <b-icon icon="exclamation-circle-fill" variant="dark"></b-icon>
+    </div>
   </div>
 </template>
 
