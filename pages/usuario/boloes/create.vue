@@ -8,7 +8,7 @@
       </div>
       <div class="logo">
         <img
-          src="../../../static/bolao-logo-white.svg"
+          src="bolao-logo-white.svg"
           alt="Logo Bolão"
           class="mt-2"
           style="width: 15rem"
@@ -119,7 +119,7 @@
 
 <script>
 export default {
-  name: "Criar",
+  name: "CriarBolao",
   data() {
     return {
       nome_bolao: "",
@@ -137,9 +137,7 @@ export default {
     mudarPrivacidade() {
       this.publico = !this.publico;
     },
-    criarBolao() {
-
-    }
+    criarBolao() {},
   },
 };
 </script>
@@ -236,10 +234,9 @@ a:hover {
   font-size: 1.3rem;
 }
 
-.input-box{
-  display:grid;
+.input-box {
+  display: grid;
   gap: 10px;
   grid-template-columns: 1fr 1fr;
 }
-
 </style>
