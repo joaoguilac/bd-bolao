@@ -29,9 +29,10 @@
             required
             :type="passwordFieldType"
             v-model="senha"
-            class="form-control"
+            class="form-control mb-xl-3"
             placeholder="Senha"
           />
+          <!--
           <b-row class="px-0">
             <b-col cols="6">
               <b-form-checkbox
@@ -47,17 +48,18 @@
               <b-button to="/esqueciSenha" variant="link">Esqueceu sua senha?</b-button>
             </b-col>
           </b-row>
-          <b-button type="submit" block variant="success" class="px-4">
+          -->
+          <b-button type="submit" block variant="success" class="px-4 mb-3">
             Entrar
           </b-button>
-          <!-- <b-row>
+          <b-row>
             <b-col>
               <p class="mt-3 mb-3 text-center">
                 Ainda não tem conta?
-                <nuxt-link :to="`/register`">Cadastrar-se</nuxt-link>
+                <nuxt-link :to="`/register`" class="cadastro">Cadastrar-se</nuxt-link>
               </p>
             </b-col>
-          </b-row> -->
+          </b-row>
         </form>
       </div>
     </b-container>
@@ -166,6 +168,10 @@ export default {
     background-color: #F9F8F4;
   }
 
+  a:hover{
+    text-decoration: none;
+  }
+
 </style>
 
 
@@ -204,4 +210,8 @@ export default {
   font-size:1.7rem;
 }
 
+.cadastro{
+  color:var(--primary-color);
+  font-weight: 400;
+}
 </style>
