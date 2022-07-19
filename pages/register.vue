@@ -29,6 +29,16 @@
             mb-4
           "
         >
+        <div
+          class="
+            w-100
+            d-flex
+            flex-column
+            justify-content-lg-start
+            align-content-center
+            mb-4
+          "
+        >
           <h1 id="title-login">> CADASTRO</h1>
           <p>Faça o seu cadastro e divirta-se apostando</p>
         </div>
@@ -86,11 +96,12 @@
             <b-col>
               <p class="mt-3 mb-3 text-center">
                 Já possui conta?
-                <nuxt-link :to="`/login`" class="login">Logar-se</nuxt-link>
+                <nuxt-link :to="`/login`" class="login">Logar</nuxt-link>
               </p>
             </b-col>
           </b-row>
         </form>
+        </div>
       </div>
     </b-container>
   </div>

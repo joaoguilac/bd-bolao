@@ -63,7 +63,7 @@
               <p class="mt-3 mb-3 text-center">
                 Ainda não tem conta?
                 <nuxt-link :to="`/register`" class="cadastro"
-                  >Cadastrar-se</nuxt-link
+                  >Cadastre-se</nuxt-link
                 >
               </p>
             </b-col>
