@@ -22,14 +22,14 @@
           required
           type="email"
           v-model="email"
-          class="form-control mr-3"
+          class="form-control mr-3 p-4"
           placeholder="E-mail"
         />
         <input
           required
           type="password"
           v-model="senha"
-          class="form-control mr-3"
+          class="form-control mr-3 p-4"
           placeholder="Senha"
         />
         <b-button type="submit" block variant="success" class="px-4 w-25">

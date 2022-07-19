@@ -6,6 +6,7 @@
       <div class="bar-middle"></div>
       <div class="bar-bottom"></div>
     </div>
+
     <div class="logo">
        <img src="../../../static/bolao-logo-white.svg" alt="Logo Bolão" class="mt-2" style="width:15rem;">
     </div>

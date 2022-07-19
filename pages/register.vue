@@ -25,6 +25,30 @@
           />
           <br>
           <input
+            required
+            type="text"
+            v-model="nome"
+            class="form-control"
+            placeholder="Nome"
+          />
+          <br>
+            <input
+            required
+            type="text"
+            v-model="email"
+            class="form-control"
+            placeholder="Sobrenome"
+          />
+          <br>
+               <input
+            required
+            type="text"
+            v-model="email"
+            class="form-control"
+            placeholder="Telefone"
+          />
+          <br>
+          <input
             id="password"
             required
             :type="passwordFieldType"
