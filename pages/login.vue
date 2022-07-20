@@ -43,7 +43,6 @@
             placeholder="Senha"
           />
           <b-button
-            :to="`/usuario`"
             type="submit"
             block
             variant="success"
@@ -55,7 +54,7 @@
             <b-col>
               <p class="mt-3 mb-3 text-center">
                 Ainda não tem conta?
-                <nuxt-link :to="`/register`" class="cadastro"
+                <nuxt-link :to="`/registro`" class="cadastro"
                   >Cadastre-se</nuxt-link
                 >
               </p>
@@ -78,7 +77,29 @@ export default {
     };
   },
   methods: {
-    login() {},
+    login() {
+      this.$axios.post("/auth/login", {
+        email: this.email,
+        senha: this.senha,
+      }).then((response)=>{
+
+        this.$bvToast.toast("Login realizado com sucesso!", {
+          title: "Login",
+          autoHideDelay: 2000,
+          variant: "success",
+        });
+        this.$router.push("/home")
+        localStorage.setItem("token", response.data.token)
+      }).catch(({response})=>{
+        this.$bvToast.toast(response.data.message, {
+          title: "Erro",
+          variant: "danger",
+          solid: true,
+          toast: true,
+          autoHideDelay: 5000,
+        });
+      });
+    },
   },
 };
 </script>

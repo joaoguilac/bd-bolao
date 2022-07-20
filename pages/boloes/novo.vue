@@ -1,6 +1,6 @@
 <template>
   <div>
-     <Header></Header>
+    <Header></Header>
     <b-container class="box-form">
       <h1 id="title" class="text-center my-5">Criar Bolão</h1>
       <form @submit.prevent="criarBolao">
@@ -21,21 +21,16 @@
           placeholder="Aposta Mínima"
         />
         <br />
-        <select name="campeonato" id="campeonato" class="form-control p-3">
-          <option value="0" :selected="true">Selecione o Campeonato</option>
-          <option value="1">Brasileirão</option>
-        </select>
+        <b-select
+          name="campeonato"
+          id="campeonato"
+          :options="campeonatosOptions"
+        >
+        </b-select>
         <div class="custom-control custom-switch my-3">
-          <input
-            type="checkbox"
-            class="custom-control-input"
-            id="customSwitches"
-            v-model="publico"
-            @change="mudarPrivacidade"
-          />
-          <label class="custom-control-label" for="customSwitches"
-            >Público</label
-          >
+          <b-form-checkbox v-model="publico" name="check-button" switch>
+            {{ publico ? 'Público' : 'Privado' }}
+          </b-form-checkbox>
         </div>
         <p class="my-4 title-form">> Pontuação</p>
         <div class="input-box">
@@ -45,7 +40,7 @@
             type="number"
             required
             class="form-control mb-xl-3 p-3"
-            placeholder="Placar Exato"
+            placeholder="Placar Exato (1x)"
           />
           <input
             id="gols_vencedor"
@@ -53,7 +48,7 @@
             type="number"
             required
             class="form-control mb-xl-3 p-3"
-            placeholder="Gols do Time Vencedor"
+            placeholder="Gols do Time Vencedor (1x)"
           />
           <input
             id="gols_perdedor"
@@ -61,7 +56,7 @@
             type="number"
             required
             class="form-control mb-xl-3 p-3"
-            placeholder="Gols do Time Perdedor"
+            placeholder="Gols do Time Perdedor (1x)"
           />
           <input
             id="saldo_gols"
@@ -69,7 +64,7 @@
             type="number"
             required
             class="form-control mb-xl-3 p-3"
-            placeholder="Saldo de Gols"
+            placeholder="Saldo de Gols (1x)"
           />
           <input
             id="acerto_vencedor"
@@ -77,7 +72,7 @@
             type="number"
             required
             class="form-control mb-xl-3 p-3"
-            placeholder="Acerto do Vencedor"
+            placeholder="Acerto do Vencedor (1x)"
           />
           <input
             id="acerto_empate"
@@ -85,7 +80,7 @@
             type="number"
             required
             class="form-control mb-xl-3 p-3"
-            placeholder="Acerto do Empate"
+            placeholder="Acerto do Empate (1x)"
           />
         </div>
         <div class="d-flex align-items-center justify-content-end">
@@ -109,21 +104,29 @@ export default {
   data() {
     return {
       nome_bolao: "",
-      aposta_minima: 0,
-      placar_exato: 0,
-      gols_vencedor: 0,
-      gols_perdedor: 0,
-      saldo_gols: 0,
-      acerto_vencedor: 0,
-      acerto_empate: 0,
+      aposta_minima: null,
+      placar_exato: null,
+      gols_vencedor: null,
+      gols_perdedor: null,
+      saldo_gols: null,
+      acerto_vencedor: null,
+      acerto_empate: null,
       publico: true,
+      campeonatosOptions: [],
     };
   },
+  mounted() {
+    this.getCompanies();
+  },
   methods: {
-    mudarPrivacidade() {
-      this.publico = !this.publico;
-    },
     criarBolao() {},
+    async getCompanies() {
+      let { data: campeonatos } = await this.$axios.get("/bolao/campeonatos");
+      this.campeonatosOptions = campeonatos.map((campeonato) => ({
+        text: campeonato.nome,
+        value: campeonato.id,
+      }));
+    },
   },
 };
 </script>
