@@ -72,7 +72,7 @@
           você!
         </h2>
         <p>Faça o seu cadastro</p>
-        <nuxt-link to="/cadastrar" class="button-login">
+        <nuxt-link to="/registro" class="button-login">
           <b-button
             type="button"
             block
