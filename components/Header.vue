@@ -2,7 +2,7 @@
     <div class="header d-flex align-items-center">
       <Menu></Menu>
       <div class="logo">
-        <nuxt-link to="/usuario/boloes/meus-boloes">
+        <nuxt-link to="/home">
           <img
             src="/bolao-logo-white.svg"
             alt="Logo Bolão"
