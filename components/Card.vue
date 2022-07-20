@@ -11,33 +11,33 @@
           justify-content-center
         "
       >
-        <p>Bolão dos Amigos do IMD</p>
+        <p>{{nome}}</p>
       </div>
       <div class="content-card">
         <div class="image d-flex align-items-center justify-content-center">
-          <img src="/brasileirao.png" alt="Bolão aberto no smartphone">
+          <img :src="campeonato_emblema" alt="Bolão aberto no smartphone">
         </div>
         <div class="info p-3">
-          <p class="w-100 p-info">Brasileirão Série A [2022]</p>
+          <p class="w-100 p-info">{{ campeonato }}</p>
           <p class="w-100 p-info">
             <span class="label-info"
               ><b-icon icon="person-fill" class="m-2"></b-icon
               ><b class="mr-2">Adm:</b></span
-            >Caio Mateus
+            >{{admin}}
           </p>
           <p class="w-100 p-info">
             <span class="label-info"
               ><b-icon icon="people-fill" class="m-2"></b-icon
               ><b class="mr-2">Participantes:</b></span
             >
-            33/77
+            {{ participantes }}
           </p>
           <p class="w-100 p-info">
             <span class="label-info"
               ><b-icon icon="clock-fill" class="m-2"></b-icon
               ><b class="mr-2">Tempo para ingressar:</b></span
             >
-            20min
+            {{tempo_ingressar}}
           </p>
           <div
             class="
@@ -62,8 +62,8 @@
               "
             >
 
-              <b-icon v-bind:icon="icon" class="m-2"></b-icon>
-              {{text}}
+              <b-icon v-bind:icon="button_icon" class="m-2"></b-icon>
+              {{button_text}}
             </b-button>
           </div>
         </div>
@@ -75,8 +75,13 @@
 <script>
   export default {
     props: {
-      icon: String,
-      text: String
+      campeonato_emblema: String,
+      nome: String,
+      admin: String,
+      participantes: Number,
+      tempo_ingressar: String,
+      button_text: String,
+      button_icon: String,
     }
   }
 </script>

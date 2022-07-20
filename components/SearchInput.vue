@@ -7,6 +7,7 @@
       v-model="search"
       class="form-control input-search"
       placeholder="Digite o nome do bolão ou campeonato que deseja participar"
+      @input="this.$emit('search', search)"
     >
     <label for="searchInput" class="ml-4 mt-2">Filtrar</label>
     <div class="btn-search h-100 mr-4">
