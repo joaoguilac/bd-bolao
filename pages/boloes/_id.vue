@@ -9,8 +9,8 @@
       </div>
     </div>
 
-    <b-modal id="modal" cancel-title="Cancelar" ok-title="Apostar"  @ok="participar">
-      <b-form-input v-model="valorApostado" placeholder='Com quanto deseja entrar?'></b-form-input>
+    <b-modal id="modal" cancel-title="Cancelar" ok-title="Participar"  @ok="participar">
+      <h2> Deseja participar com {{bolao.aposta_minima}} pontos?</h2>
     </b-modal>
 
     <h3>Pontuação:</h3>
@@ -128,7 +128,7 @@ export default {
     participar(){
       if (process.browser){
         this.$axios.post(`/bolao/bolao/${this.$route.params.id}/participar`, {
-          valor: this.valorApostado,
+          valor: this.bolao.aposta_minima,
           token: localStorage.getItem('token')
         })
           .then(response => {

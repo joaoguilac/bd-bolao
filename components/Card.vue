@@ -73,12 +73,32 @@
 
 <script>
   import moment from "moment";
+  import jwt_decode from "jwt-decode";
 
   export default {
     props: {
       bolao: Object,
-      button_text: String,
-      button_icon: String,
+    },
+    created() {
+      let token = localStorage.getItem("token");
+      let email = jwt_decode(token).user_email;
+      let jaEntrou = this.bolao.participacoes.some(
+        participacao => participacao.Apostador_email == email
+      );
+      console.log(jaEntrou)
+      if (jaEntrou) {
+        this.button_text =  "Entrou";
+        this.button_icon = "check-circle-fill";
+      } else {
+        this.button_text =  "Entrar no bolão";
+        this.button_icon = 'person-plus'
+      }
+    },
+    data(){
+      return {
+        button_text: '',
+        button_icon: '',
+      }
     },
     methods: {
       getTempoIngressar(partida){

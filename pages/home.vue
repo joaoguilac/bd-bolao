@@ -5,11 +5,7 @@
       <SearchInput @search="searchBoloes"></SearchInput>
     </div>
     <div class="boloes row p-4">
-      <Card button_icon="person-plus" button_text="Entrar"
-            :bolao="bolao"
-            v-for="bolao in boloes"
-            :key="bolao.id"
-      />
+      <Card :bolao="bolao" v-for="bolao in boloes" :key="bolao.id" />
     </div>
   </div>
 </template>
@@ -18,7 +14,7 @@
 import moment from "moment";
 import SearchInput from '~/components/SearchInput.vue';
 export default {
-    name: "Usuario",
+    name: "Home",
     components: { SearchInput },
     data(){
       return {

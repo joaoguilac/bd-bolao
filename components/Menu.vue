@@ -15,8 +15,8 @@
           <nuxt-link to="/boloes/novo">
             <li> <b-icon icon="plus-circle-fill" class="mr-2 menu-icons"></b-icon>Criar Bolão</li>
           </nuxt-link>
-           <nuxt-link to="/boloes/meus-boloes">
-            <li> <b-icon icon="filter-circle-fill" class="mr-2 menu-icons"></b-icon>Meus Bolões</li>
+          <nuxt-link to="/home">
+            <li> <b-icon icon="search" class="mr-2 menu-icons"></b-icon>Bolões</li>
           </nuxt-link>
            <nuxt-link to="/">
             <li> <b-icon icon="arrow-left-square-fill" class="mr-2 menu-icons"></b-icon>Sair</li>
