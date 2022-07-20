@@ -1,14 +1,7 @@
 
 <template>
   <div>
-    <div class="border d-flex w-100">
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
+    <Border></Border>
     <b-container>
       <div
         class="w-100 d-flex align-items-center justify-content-center mt-5 mb-3"
@@ -108,40 +101,6 @@ export default {
 };
 </script>
 
-<style>
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500&display=swap");
-
-:root {
-  --primary-color: #13c75f;
-  --text-color: #7e7e90;
-  --sub-text-color: #ababc0;
-  --second-color: #f2c94c;
-  --danger-color: #eb5757;
-  --details-color: #6a6180;
-}
-
-* {
-  margin: 0;
-  text-decoration: none;
-  font-family: "Poppins", sans-serif;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html,
-body {
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  position: relative;
-  overflow-x: hidden;
-  color: white;
-  background-color: #f9f8f4;
-}
-</style>
-
 <style scoped>
 .border > span {
   width: 30%;
@@ -184,13 +143,6 @@ span:nth-child(6n) {
 .back-green {
   background-color: var(--primary-color);
 }
-/*
-.button-login{
-  display: grid;
-  grid-template-columns: 100px 1fr;
-  padding: 2rem;
-} */
-
 .button-login {
   width: 20rem;
 }
