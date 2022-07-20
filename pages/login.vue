@@ -21,6 +21,7 @@
             align-content-center
             mb-4
           "
+          style="color: white"
         >
           <h1 id="title-login">> LOGIN</h1>
           <p>Faça o login para começar a apostar</p>
@@ -52,7 +53,7 @@
           </b-button>
           <b-row>
             <b-col>
-              <p class="mt-3 mb-3 text-center">
+              <p class="mt-3 mb-3 text-center" style="color: white">
                 Ainda não tem conta?
                 <nuxt-link :to="`/registro`" class="cadastro"
                   >Cadastre-se</nuxt-link
@@ -77,7 +78,32 @@ export default {
     };
   },
   methods: {
+    login() {
+      this.$axios.post("/auth/login", {
+        email: this.email,
+        senha: this.senha,
+      }).then((response)=>{
+        this.$bvToast.toast("Login realizado com sucesso!", {
+          title: "Login",
+          autoHideDelay: 2000,
+          variant: "success",
+          appendToast: true,
+        });
+        this.$router.push("/home")
+        localStorage.setItem("token", response.data.token)
+      }).catch((error)=>{
+        console.log(error)
 
+        this.$bvToast.toast(error.response.data.message, {
+          title: "Erro",
+          variant: "danger",
+          solid: true,
+          toast: true,
+          autoHideDelay: 5000,
+          appendToast: true,
+        });
+      });
+    },
   },
 };
 </script>

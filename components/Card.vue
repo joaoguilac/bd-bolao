@@ -1,73 +1,34 @@
 <template>
- <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
-    <div class="card">
-      <div
-        class="
-          w-100
-          text-center
-          d-flex
-          align-items-center
-          justify-content-center
-        "
-      >
-        <p>{{bolao.nome}}</p>
-      </div>
-      <div class="content-card">
-        <div class="image d-flex align-items-center justify-content-center">
-          <img :src="bolao.campeonato.emblema" alt="Bolão aberto no smartphone">
-        </div>
-        <div class="info p-3">
-          <p class="w-100 p-info">{{ bolao.campeonato.nome }}</p>
-          <p class="w-100 p-info">
-            <span class="label-info"
-              ><b-icon icon="person-fill" class="m-2"></b-icon
-              ><b class="mr-2">Adm:</b></span
-            >{{bolao.administrador.nome}}
-          </p>
-          <p class="w-100 p-info">
-            <span class="label-info"
-              ><b-icon icon="people-fill" class="m-2"></b-icon
-              ><b class="mr-2">Participantes:</b></span
-            >
-            {{ bolao.participacoes.length }}
-          </p>
-          <p class="w-100 p-info">
-            <span class="label-info"
-              ><b-icon icon="clock-fill" class="m-2"></b-icon
-              ><b class="mr-2">Tempo para ingressar:</b></span
-            >
-            {{getTempoIngressar(bolao.primeira_partida)}}
-          </p>
-          <div
-            class="
-              button-entrar
-              w-100
-              d-flex
-              align-items-center
-              justify-content-end
-            "
-          >
-            <b-button
-              :to="`/boloes/${bolao.idbolao}`"
-              type="button"
-              block
-              variant="outline-secondary"
-              class="
-                px-4
-                mb-3
-                d-flex
-                align-items-center
-                justify-content-center
-              "
-            >
+ <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
+   <b-card :title="bolao.nome" :sub-title="bolao.campeonato.nome" :img-src="bolao.campeonato.emblema" img-left id="bolao-detail">
+     <b-card-text>
+       <div>
+         <b><b-icon icon="person-square" class="mr-2"></b-icon>Administrador: </b>
+         {{ bolao.administrador.nome }} ({{bolao.administrador.email}})
+       </div>
+       <div>
+         <b><b-icon icon="people-fill" class="mr-2"></b-icon>{{ bolao.participantes.length }}</b> participantes
+       </div>
+       <div>
+        <b><b-icon icon="clock-fill" class="mr-2"></b-icon>Tempo até inicio:</b>
+         {{getTempoIngressar(bolao.primeira_partida)}}
+       </div>
+     </b-card-text>
+        <b-button block
+                  variant="outline-secondary"
+                  class="
+                    px-4
+                    mb-3
+                    d-flex
+                    align-items-center
+                    justify-content-center
+                  "
+                  :to="`/boloes/${bolao.idbolao}`">
+          <b-icon
+            v-bind:icon="button_icon" class="mr-2"></b-icon>{{button_text}}
+        </b-button>
 
-              <b-icon v-bind:icon="button_icon" class="m-2"></b-icon>
-              {{button_text}}
-            </b-button>
-          </div>
-        </div>
-      </div>
-    </div>
+   </b-card>
   </div>
 </template>
 
@@ -81,17 +42,24 @@
     },
     created() {
       let token = localStorage.getItem("token");
-      let email = jwt_decode(token).user_email;
-      let jaEntrou = this.bolao.participacoes.some(
-        participacao => participacao.Apostador_email == email
+      let email = jwt_decode(token).email;
+      let jaEntrou = this.bolao.participantes.some(
+        participante => participante.Apostador_email === email && participante.status === 1
       );
-      console.log(jaEntrou)
+
       if (jaEntrou) {
         this.button_text =  "Entrou";
         this.button_icon = "check-circle-fill";
       } else {
-        this.button_text =  "Entrar no bolão";
-        this.button_icon = 'person-plus'
+        let tempoIngressar = this.getTempoIngressar(this.bolao.primeira_partida);
+        if (tempoIngressar == "Já iniciado"){
+          this.button_text =  "Não é possível mais";
+          this.button_icon = "hourglass-bottom";
+        } else {
+          this.button_text =  "Entrar no bolão";
+          this.button_icon = 'person-plus'
+        }
+
       }
     },
     data(){
@@ -103,15 +71,21 @@
     methods: {
       getTempoIngressar(partida){
         moment.locale('pt-br');
-        let partida_data = moment(partida.data);
-        partida_data.add(partida.horario, 'seconds')
-        return partida_data.fromNow();
+        let data = moment(partida.data);
+        if(data.isAfter(moment())){
+          return data.fromNow();
+        } else {
+          return 'Já iniciado'
+        }
       },
     }
   }
 </script>
 
 <style scoped>
+.card-img-left{
+  max-width: 250px;
+}
 .card {
   color: var(--text-color);
   border-radius: 10px;

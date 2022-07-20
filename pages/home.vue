@@ -26,12 +26,22 @@ export default {
   },
   methods:{
     getBoloes(filtros){
-      this.$axios.get('/bolao/bolao', {params: filtros})
+      this.$axios.get('/bolao', {params: filtros})
       .then(response => {
-        this.boloes = response.data;
+        this.boloes = response.data.data;
       })
-      .catch(error => {
-        console.log(error);
+      .catch(({response}) => {
+        let {message} = response.data;
+        if(message){
+          this.$root.$bvToast.toast(message, {
+            title: "Erro",
+            variant: "danger",
+            solid: true,
+            toast: true,
+            autoHideDelay: 5000,
+            appendToast: true,
+          });
+        }
       });
     },
     searchBoloes(search){

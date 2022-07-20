@@ -65,7 +65,7 @@
         <img src="mockup.png" alt="Bolão aberto no smartphone" />
       </div>
     </b-container>
-    <div class="w-100" style="z-index: 2; position: absolute; top: 60rem">
+    <div class="w-100" style="z-index: 2; position: absolute; top: 60rem; color: white;">
       <div class="login-box back-green w-100">
         <h2 class="text-center">
           Se você quer se divertir apostando em jogos de futebol, bolão é pra
@@ -111,21 +111,22 @@ export default {
         email: this.email,
         senha: this.senha,
       }).then((response)=>{
-
-        this.$bvToast.toast("Login realizado com sucesso!", {
+        this.$root.$bvToast.toast("Login realizado com sucesso!", {
           title: "Login",
           autoHideDelay: 2000,
           variant: "success",
+          appendToast: true,
         });
         this.$router.push("/home")
         localStorage.setItem("token", response.data.token)
       }).catch(({response})=>{
-        this.$bvToast.toast(response.data.message, {
+        this.$root.$bvToast.toast(response.data.message, {
           title: "Erro",
           variant: "danger",
           solid: true,
           toast: true,
           autoHideDelay: 5000,
+          appendToast: true,
         });
       });
     },

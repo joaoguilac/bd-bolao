@@ -1,43 +1,104 @@
 <template>
-  <b-container>
-    <div class="d-flex">
-      <img :src="bolao.campeonato.emblema" alt="logo" style="max-height: 100px" class="mr-5">
-      <div><h1>{{ bolao.nome }}</h1>
-        <p>Campeonato: {{ bolao.campeonato.nome }}</p>
-        <p>Administrador: {{ bolao.administrador.nome }} ({{bolao.administrador.email}})<b-button class="ml-4">Convidar</b-button></p>
-        <p>{{bolao.participacoes.length}} participantes<b-button class="ml-4" v-if="!jaParticipa()" v-b-modal.modal>Participar</b-button></p>
-      </div>
+  <div>
+    <div>
+      <Header></Header>
+      <b-container>
+      <b-card :img-src="bolao.campeonato.emblema" img-left id="bolao-detail" style="position:relative;top: -5em">
+        <b-card-title class="d-flex justify-content-between">
+          <span>{{ bolao.nome }}</span>
+          <b-icon icon="gear" v-if="verificaAdiministrador()" v-b-modal.solicitacoes></b-icon>
+        </b-card-title>
+        <b-card-sub-title>
+          <span>{{ bolao.campeonato.nome }}</span>
+        </b-card-sub-title>
+        <b-card-text>
+          <div>
+            <b><b-icon icon="person-square" class="mr-2"></b-icon>Administrador: </b>
+            {{ bolao.administrador.nome }} ({{bolao.administrador.email}})
+          </div>
+          <div>
+            <b><b-icon icon="people-fill" class="mr-2"></b-icon>{{ bolao.participantes.length }}</b> participantes
+          </div>
+          <div>
+            <b><b-icon icon="clock-fill" class="mr-2"></b-icon>Tempo até inicio:</b>
+            {{getTempoIngressar(bolao.primeira_partida)}}
+          </div>
+          <div v-b-modal.regras style="cursor:pointer;">
+            <b-icon icon="pen-fill" class="mr-2"></b-icon>
+            Regras de Pontuação
+          </div>
+        </b-card-text>
+        <b-card-text>
+          <b-button v-if="!jaParticipa() && !verificaAdiministrador" v-b-modal.modal>Participar</b-button>
+        </b-card-text>
+        <b-modal id="modal" cancel-title="Cancelar" ok-title="Participar"  @ok="participar" title="Deseja confirmar?">
+          Deseja participar com {{bolao.aposta_minima}} pontos?
+        </b-modal>
+        <b-modal title="Regras de Pontuação" id="regras">
+          <b-list-group>
+            <b-list-group-item>Placar Exato: <span class="bold">{{bolao.placar_certo}}x</span></b-list-group-item>
+            <b-list-group-item>Gols do Time Vencedor: <span class="bold">{{bolao.gols_time_vencedor}}x</span></b-list-group-item>
+            <b-list-group-item>Gols do Time Perdedor: <span class="bold">{{bolao.gols_time_perdedor}}x</span></b-list-group-item>
+            <b-list-group-item>Saldo de Gols: <span class="bold">{{bolao.saldo_gols}}x</span></b-list-group-item>
+            <b-list-group-item>Acerto do Vencedor: <span class="bold">{{bolao.acerto_vencedor}}x</span></b-list-group-item>
+            <b-list-group-item>Acerto do Empate: <span class="bold">{{bolao.acerto_empate}}x</span></b-list-group-item>
+          </b-list-group>
+        </b-modal>
+        <b-modal title="Solicitações" id="solicitacoes" :ok-only="true">
+          <b-list-group>
+            <b-list-group-item v-for="sol in bolao.participantes.filter((p)=>p.status===0)" class="d-flex justify-content-between">
+              <div>{{sol.Apostador_email}}</div>
+              <div>
+                <b-icon icon="check-square" class="h4" variant="success" style="cursor:pointer;" @click="()=>(responderSolicitacao(1, sol.Apostador_email))"></b-icon>
+                <b-icon icon="x-square" class="h4" variant="danger" style="cursor:pointer;" @click="()=>(responderSolicitacao(3, sol.Apostador_email))"></b-icon>
+              </div>
+            </b-list-group-item>
+          </b-list-group>
+        </b-modal>
+      </b-card>
+      </b-container>
     </div>
+    <div>
+      <b-container class="mt-5">
+        <b-card class="mt-5" no-body v-if="palpitesCarregados">
+          <b-tabs card>
+            <b-tab title="Abertas" active>
+              <div class="d-flex justify-content-between my-5" v-for="partida in abertas" :key-="partida.id" v-if="">
+                <div style="width: 80%" class="d-flex">
+                  <span style="width: 20px">{{partida.num_gols_casa}}</span>
+                  <img :src="partida.time_casa.escudo"  style="min-width: 5%; max-width: 5%" alt="" class="mx-4"/>
+                  <b-input style="width: 8%" type="number" @blur="()=>{salvaPalpite(partida.idpartida)}" v-model="palpites[partida.idpartida].casa"></b-input>
+                  <span class="mx-4">vs</span>
+                  <b-input style="width: 8%" type="number" @blur="()=>{salvaPalpite(partida.idpartida)}" v-model="palpites[partida.idpartida].fora"></b-input>
+                  <img :src="partida.time_fora.escudo"  style="min-width: 5%; max-width: 5%" alt="" class="mx-4"/>
+                  <span>{{partida.num_gols_fora}}</span>
+                </div>
+                <div style="width: 20%" class="d-flex flex-column align-items-center">
+                  <span>{{getFormatedDate(partida.data)}}</span>
+                </div>
+              </div>
+            </b-tab>
+            <b-tab title="Finalizadas">
+              <div class="d-flex justify-content-between my-5" v-for="partida in fechadas" :key-="partida.id" v-if="">
+                <div style="width: 80%" class="d-flex align-items-center align-content-center">
+                  <h3 style="width: 20px">{{partida.num_gols_casa}}</h3>
+                  <img :src="partida.time_casa.escudo"  style="min-width: 5%; max-width: 5%" alt="" class="mx-4"/>
+                  <span class="mx-4">vs</span>
+                  <img :src="partida.time_fora.escudo"  style="min-width: 5%; max-width: 5%" alt="" class="mx-4"/>
+                  <h3>{{partida.num_gols_fora}}</h3>
+                </div>
+                <div style="width: 20%" class="d-flex flex-column align-items-center">
+                  <span>{{getFormatedDate(partida.data)}}</span>
+                  <div>Partida já iniciada!!</div>
+                </div>
+              </div>
+            </b-tab>
+          </b-tabs>
 
-    <b-modal id="modal" cancel-title="Cancelar" ok-title="Participar"  @ok="participar">
-      <h2> Deseja participar com {{bolao.aposta_minima}} pontos?</h2>
-    </b-modal>
-
-    <h3>Pontuação:</h3>
-    <ul>
-      <li>{{bolao.placar_certo}} - Placar Exato</li>
-      <li>{{bolao.gols_time_vencedor}} - Gols do Time Vencedor</li>
-      <li>{{bolao.gols_time_perdedor}} - Gols do Time Perdedor</li>
-      <li>{{bolao.saldo_gols}} - Saldo de Gols</li>
-      <li>{{bolao.acerto_vencedor}} - Acerto do Vencedor</li>
-      <li>{{bolao.acerto_empate}} - Acerto do Empate</li>
-    </ul>
-    <div class="d-flex justify-content-between my-5" v-for="partida in partidas" :key-="partida.id" v-if="jaParticipa()">
-      <div style="width: 80%" class="d-flex">
-        <span style="width: 20px">{{partida.num_gols_casa}}</span>
-        <img :src="partida.time_casa.escudo"  style="min-width: 5%; max-width: 5%" alt="" class="mx-4"/>
-        <b-input style="max-width: 15%;" :placeholder="partida.time_casa.nome" :readonly="partidaIniciada(partida)" @input="()=>{salvaPalpite(partida.idpartida)}" v-model="palpites[partida.idpartida].casa" v-if="palpitesCarregados"/>
-        <span class="mx-4">vs</span>
-        <b-input style="max-width: 15%;" :placeholder="partida.time_fora.nome" :readonly="partidaIniciada(partida)" @input="()=>{salvaPalpite(partida.idpartida)}" v-model="palpites[partida.idpartida].fora" v-if="palpitesCarregados"/>
-        <img :src="partida.time_fora.escudo"  style="min-width: 5%; max-width: 5%" alt="" class="mx-4"/>
-        <span>{{partida.num_gols_fora}}</span>
-      </div>
-      <div style="width: 20%" class="d-flex flex-column align-items-center">
-        <span>{{getdata(partida.data)}} - {{getHorario(partida.horario)}}</span>
-        <div v-if="partidaIniciada(partida)">Partida já iniciada!!</div>
-      </div>
+        </b-card>
+      </b-container>
     </div>
-  </b-container>
+  </div>
 </template>
 
 <script>
@@ -51,7 +112,8 @@ export default {
       bolao: {
         administrador: {},
         campeonato: {},
-        participacoes: []
+        participantes: [],
+        primeira_partida: {},
       },
       partidas: [],
       palpites: {},
@@ -59,42 +121,95 @@ export default {
       palpitesCarregados: false,
     }
   },
+  computed: {
+    abertas(){
+      return this.partidas.filter((p)=>{
+        return moment(p.data).isAfter(moment());
+      });
+    },
+    fechadas(){
+      return this.partidas.filter((p)=>{
+        return moment(p.data).isBefore(moment());
+      });
+    },
+  },
   created() {
     this.getBolao();
-
-
   },
   methods: {
+    getFormatedDate(date){
+      return moment(date).format("DD/MM/YYYY HH:mm");
+    },
+    getTempoIngressar(partida){
+      moment.locale('pt-br');
+      let data = moment(partida.data);
+      if(data.isAfter(moment())){
+        return data.fromNow();
+      } else {
+        return 'Já iniciado'
+      }
+    },
     salvaPalpite(idpartida){
       if (process.browser && this.palpites[idpartida].casa && this.palpites[idpartida].fora){
-        this.$axios.post(`/bolao/bolao/${this.$route.params.id}/partidas/${idpartida}/palpitar`, {
-          gols_casa: this.palpites[idpartida].casa,
-          gols_fora: this.palpites[idpartida].fora,
-          token: localStorage.getItem('token')
+
+        this.$axios.post(`/campeonatos/${this.bolao.campeonato_id}/partidas/${idpartida}/palpites/`, {
+          gols_time_casa: this.palpites[idpartida].casa,
+          gols_time_visitante: this.palpites[idpartida].fora,
         })
           .then(response => {
             this.getBolao();
           })
       }
     },
-    getBolao(id){
-      this.$axios.get(`/bolao/bolao/${this.$route.params.id}`)
+    verificaAdiministrador(){
+      if(process.browser) {
+        let token = localStorage.getItem('token');
+        if (token) {
+          let decoded = jwt_decode(token);
+          if (decoded.email === this.bolao.administrador.email) {
+            return true;
+          }
+        }
+      }
+      return false;
+    },
+    responderSolicitacao(novo_status, email){
+      this.$axios.post(`/bolao/${this.bolao.idbolao}/responder`, {
+        'status': novo_status,
+        'Apostador_email': email,
+      })
         .then(response => {
-          this.bolao = response.data
-          this.getPartidas(response.data.campeonato_id);
+          this.$bvToast.toast(response.data.message, {
+            title: 'Sucesso',
+            variant: 'success',
+            solid: true,
+            appendToast: true,
+            autoHideDelay: 5000
+          });
+          this.getBolao();
+        })
+    },
+
+    getBolao(id){
+      this.$axios.get(`/bolao/${this.$route.params.id}`)
+        .then(response => {
+          this.bolao = response.data.data
+          this.getPartidas(response.data.data.campeonato_id);
         })
     },
     getPartidas(campeonato_id){
-      this.$axios.get(`/bolao/campeonatos/${campeonato_id}/partidas`)
+      this.$axios.get(`/campeonatos/${campeonato_id}/partidas`)
         .then(response => {
-          this.partidas = response.data
+          this.partidas = response.data.data;
           this.getPalpites()
         })
     },
     getPalpites(){
       if(process.browser){
-        this.$axios.post('/bolao/campeonatos/palpites', {'token': localStorage.getItem('token')}).then((response)=>{
-          this.palpites = response.data
+        let token = localStorage.getItem('token');
+        let email = jwt_decode(token).email;
+        this.$axios.get(`/campeonatos/${this.bolao.campeonato.idcampeonato}/partidas/palpites?apostador_email=${email}`).then((response)=>{
+          this.palpites = response.data.data;
           this.palpitesCarregados = true;
         })
       }
@@ -121,8 +236,8 @@ export default {
     },
     jaParticipa(){
       if (process.browser){
-        let userEmail = jwt_decode(localStorage.getItem('token')).user_email;
-        return this.bolao.participacoes.some(participacao => participacao.Apostador_email === userEmail);
+        let userEmail = jwt_decode(localStorage.getItem('token')).email;
+        return this.bolao.participantes.some(participacao => participacao.Apostador_email === userEmail && participacao.status === 1);
       }
     },
     participar(){
@@ -130,8 +245,7 @@ export default {
         this.$axios.post(`/bolao/bolao/${this.$route.params.id}/participar`, {
           valor: this.bolao.aposta_minima,
           token: localStorage.getItem('token')
-        })
-          .then(response => {
+        })          .then(response => {
             this.getBolao();
           })
       }
@@ -141,23 +255,11 @@ export default {
 }
 </script>
 
-<style scoped>
-*:not(.modal-content *) {
-  background-color: green;
-}
-::placeholder{
-  color: white;
-}
-*[readonly="readonly"]::placeholder{
-  color: black;
-}
-.modal-content *::placeholder{
-  color: black;
-}
-.modal-content *{
-  color:black !important;
-}
-input{
-  color: white;
-}
+<style>
+  #bolao-detail img{
+    max-height: 250px;
+  }
+  .card-img-left{
+    margin: 20px
+  }
 </style>

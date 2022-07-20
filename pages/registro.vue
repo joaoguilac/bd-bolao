@@ -31,6 +31,7 @@
             align-content-center
             mb-4
           "
+          style="color: white"
         >
           <h1 id="title-login">> CADASTRO</h1>
           <p>Faça o seu cadastro e divirta-se apostando</p>
@@ -86,7 +87,7 @@
           </b-button>
           <b-row>
             <b-col>
-              <p class="mt-3 mb-3 text-center">
+              <p class="mt-3 mb-3 text-center" style="color: white">
                 Já possui conta?
                 <nuxt-link :to="`/login`" class="login">Logar</nuxt-link>
               </p>
