@@ -77,7 +77,6 @@
             placeholder="Senha"
           />
           <b-button
-            :to="`/login`"
             type="submit"
             block
             variant="success"
@@ -114,7 +113,32 @@ export default {
     };
   },
   methods: {
-    cadastrar() {},
+    cadastrar() {
+      this.$axios.post("/auth/register", {
+        nome: this.nome,
+        sobrenome: this.sobrenome,
+        email: this.email,
+        telefone: this.telefone,
+        senha: this.senha,
+      }).then((response)=>{
+        this.$router.push("/login")
+        this.$bvToast.toast("Faça login para continuar!", {
+          title: "Cadastro realizado com sucesso!",
+          variant: "success",
+          solid: true,
+          toast: true,
+          autoHideDelay: 5000,
+        });
+      }).catch(({response})=>{
+        this.$bvToast.toast(response.data.message, {
+          title: "Erro",
+          variant: "danger",
+          solid: true,
+          toast: true,
+          autoHideDelay: 5000,
+        });
+      })
+    },
   },
 };
 </script>
