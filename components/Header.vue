@@ -1,12 +1,11 @@
 <template>
-    <div class="header d-flex align-items-center">
+    <div class="header">
       <Menu></Menu>
-      <div class="logo">
+      <div class="logo mt-4">
         <nuxt-link to="/home">
           <img
             src="/bolao-logo-white.svg"
             alt="Logo Bolão"
-            class="mt-2"
             style="width: 15rem"
           >
         </nuxt-link>
@@ -17,6 +16,8 @@
 <style scoped>
   .header {
     background-color: var(--primary-color);
+    display: grid;
+    grid-template-columns: 100px 1fr;
   }
 
   .logo{

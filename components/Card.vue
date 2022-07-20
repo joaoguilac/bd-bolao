@@ -3,7 +3,6 @@
     <div class="card">
       <div
         class="
-          name
           w-100
           text-center
           d-flex

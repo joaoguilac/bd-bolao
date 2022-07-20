@@ -28,7 +28,7 @@
           v-model="campeonato"
         >
         </b-select>
-        <div class="custom-control custom-switch my-3">
+        <div class="custom-control custom-switch my-3 p-0">
           <b-form-checkbox v-model="publico" name="check-button" switch>
             {{ publico ? 'Público' : 'Privado' }}
           </b-form-checkbox>
@@ -169,11 +169,6 @@ export default {
 .box-form {
   color: var(--text-color);
 }
-.custom-control-input:checked ~ .custom-control-label::before {
-  border-color: var(--primary-color);
-  background-color: var(--primary-color);
-}
-
 .title-form {
   font-weight: 300;
   font-size: 1.3rem;

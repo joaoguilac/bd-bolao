@@ -2,6 +2,7 @@
 
 :root {
   --primary-color: #13c75f;
+  --primary-color-hover: #16a251;
   --text-color: #7e7e90;
   --sub-text-color: #ababc0;
   --second-color: #f2c94c;
@@ -34,4 +35,10 @@ body {
 
 .bold {
   font-weight: 600;
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+  color: #fff;
+  border-color: var(--primary-color)!important;
+  background-color:  var(--primary-color)!important;
 }

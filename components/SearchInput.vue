@@ -67,7 +67,7 @@ label {
 }
 
 .icon-search:hover {
-  color: #16a251;
+  color: var(--primary-color-hover);
 }
 
 input:placeholder-shown {
