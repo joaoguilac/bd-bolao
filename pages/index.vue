@@ -50,9 +50,9 @@
           class="form-control mr-3 p-4"
           placeholder="Senha"
         />
-        <b-button type="submit" block variant="success" class="px-4 w-25">
-          Cadastrar
-        </b-button>
+        <nuxt-link to="/register" block class="btn btn-success px-4 w-25 text-center d-flex justify-content-center align-items-center">
+            Cadastrar
+        </nuxt-link>
       </form>
       <div class="w-100 d-flex justify-content-center mt-5" style="z-index: 1">
         <img src="mockup.png" alt="Bolão aberto no smartphone" />

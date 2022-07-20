@@ -26,7 +26,7 @@
             mb-3
           "
         >
-          <h1 id="title-login">> ESQUECEU A SENHA</h1>
+          <h1 id="title-login">> REDEFINIR SENHA</h1>
           <p>Digite sua nova senha</p>
         </div>
         <form @submit.prevent="login">
