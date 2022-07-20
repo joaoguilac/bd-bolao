@@ -11,33 +11,33 @@
           justify-content-center
         "
       >
-        <p>{{nome}}</p>
+        <p>{{bolao.nome}}</p>
       </div>
       <div class="content-card">
         <div class="image d-flex align-items-center justify-content-center">
-          <img :src="campeonato_emblema" alt="Bolão aberto no smartphone">
+          <img :src="bolao.campeonato.emblema" alt="Bolão aberto no smartphone">
         </div>
         <div class="info p-3">
-          <p class="w-100 p-info">{{ campeonato }}</p>
+          <p class="w-100 p-info">{{ bolao.campeonato.nome }}</p>
           <p class="w-100 p-info">
             <span class="label-info"
               ><b-icon icon="person-fill" class="m-2"></b-icon
               ><b class="mr-2">Adm:</b></span
-            >{{admin}}
+            >{{bolao.administrador.nome}}
           </p>
           <p class="w-100 p-info">
             <span class="label-info"
               ><b-icon icon="people-fill" class="m-2"></b-icon
               ><b class="mr-2">Participantes:</b></span
             >
-            {{ participantes }}
+            {{ bolao.participacoes.length }}
           </p>
           <p class="w-100 p-info">
             <span class="label-info"
               ><b-icon icon="clock-fill" class="m-2"></b-icon
               ><b class="mr-2">Tempo para ingressar:</b></span
             >
-            {{tempo_ingressar}}
+            {{getTempoIngressar(bolao.primeira_partida)}}
           </p>
           <div
             class="
@@ -49,7 +49,7 @@
             "
           >
             <b-button
-              :to="`/usuario/bolao`"
+              :to="`/boloes/${bolao.idbolao}`"
               type="button"
               block
               variant="outline-secondary"
@@ -73,15 +73,21 @@
 </template>
 
 <script>
+  import moment from "moment";
+
   export default {
     props: {
-      campeonato_emblema: String,
-      nome: String,
-      admin: String,
-      participantes: Number,
-      tempo_ingressar: String,
+      bolao: Object,
       button_text: String,
       button_icon: String,
+    },
+    methods: {
+      getTempoIngressar(partida){
+        moment.locale('pt-br');
+        let partida_data = moment(partida.data);
+        partida_data.add(partida.horario, 'seconds')
+        return partida_data.fromNow();
+      },
     }
   }
 </script>

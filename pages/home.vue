@@ -6,11 +6,7 @@
     </div>
     <div class="boloes row p-4">
       <Card button_icon="person-plus" button_text="Entrar"
-            :campeonato_emblema="bolao.campeonato.emblema"
-            :nome="bolao.nome"
-            :participantes="bolao.participacoes.length"
-            :admin="bolao.administrador.nome"
-            :tempo_ingressar="getTempoIngressar(bolao.primeira_partida)"
+            :bolao="bolao"
             v-for="bolao in boloes"
             :key="bolao.id"
       />
@@ -34,19 +30,13 @@ export default {
   },
   methods:{
     getBoloes(filtros){
-      this.$axios.get('/bolao/bolao')
+      this.$axios.get('/bolao/bolao', {params: filtros})
       .then(response => {
         this.boloes = response.data;
       })
       .catch(error => {
         console.log(error);
       });
-    },
-    getTempoIngressar(partida){
-      moment.locale('pt-br');
-      let partida_data = moment(partida.data);
-      partida_data.add(partida.horario, 'seconds')
-      return partida_data.fromNow();
     },
     searchBoloes(search){
       this.getBoloes({'search': search});
