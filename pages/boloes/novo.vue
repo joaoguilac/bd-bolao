@@ -83,9 +83,9 @@
             type="submit"
             block
             variant="success"
-            class="px-4 mb-3 mt-4 w-25"
+            class="px-4 mb-3 mt-4 w-25 bold"
           >
-            Criar
+            CRIAR
           </b-button>
         </div>
       </form>

@@ -31,3 +31,7 @@ body {
   color: white;
   background-color: var(--background-color);
 }
+
+.bold {
+  font-weight: 600;
+}

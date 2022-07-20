@@ -22,7 +22,7 @@
         <h1 class="mb-3 text-center">
           Para você que gosta de futebol e de apostas
         </h1>
-        <p class="text-center">Faça o seu cadastro e chame seus amigos</p>
+        <p class="text-center">Faça o seu login e chame seus amigos</p>
       </div>
       <form
         @submit.prevent="login"
@@ -50,9 +50,16 @@
           class="form-control mr-3 p-4"
           placeholder="Senha"
         />
-        <nuxt-link to="/register" block class="btn btn-success px-4 w-25 text-center d-flex justify-content-center align-items-center">
-            Cadastrar
-        </nuxt-link>
+        <b-button
+            type="submit"
+            block
+            variant="success"
+            class="px-4 w-25 text-center d-flex justify-content-center align-items-center"
+            >
+            <div class="w-100 d-flex align-items-center justify-content-center bold">
+              LOGIN
+            </div></b-button
+          >
       </form>
       <div class="w-100 d-flex justify-content-center mt-5" style="z-index: 1">
         <img src="mockup.png" alt="Bolão aberto no smartphone" />
@@ -64,10 +71,10 @@
           Se você quer se divertir apostando em jogos de futebol, bolão é pra
           você!
         </h2>
-        <p>Faça o seu login</p>
-        <nuxt-link to="/login" class="button-login">
+        <p>Faça o seu cadastro</p>
+        <nuxt-link to="/registro" class="button-login">
           <b-button
-            type="submit"
+            type="button"
             block
             variant="success"
             class="w-100 p-3 d-flex"
@@ -75,8 +82,8 @@
               <b-icon icon="arrow-right-square" class="ml-3"></b-icon
               ><span class="vl ml-5"></span>
             </div>
-            <div class="w-100 d-flex align-items-center justify-content-center">
-              Login
+            <div class="w-100 d-flex align-items-center justify-content-center bold">
+              CADASTRE-SE
             </div></b-button
           >
         </nuxt-link>
