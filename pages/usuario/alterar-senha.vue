@@ -59,9 +59,9 @@
             type="submit"
             block
             variant="success"
-            class="px-4"
+            class="px-4 bold"
           >
-            Salvar
+            SALVAR
           </b-button>
         </form>
       </div>

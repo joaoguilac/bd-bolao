@@ -81,9 +81,9 @@
             type="submit"
             block
             variant="success"
-            class="px-4 mb-3"
+            class="px-4 mb-3 bold"
           >
-            Cadastrar
+            CADASTRAR
           </b-button>
           <b-row>
             <b-col>
